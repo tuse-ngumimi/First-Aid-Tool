@@ -4,8 +4,12 @@ import display
 
 def main():
     print("FIRST AID ASSISTANT")
-    print("Type a condition or symptom to search.")
-    print("Type 'close' to exit.\n")
+    print("-" * 34)
+    print("  1. ABCDEs of First Aid")
+    print("  2. Search for Emergency Procedure")
+    print("  3. First Aid Kit Checklist")
+    print("  4. Exit")
+    print("-" * 34)
 
     while True:
         keyword = input("Search: ").strip()
