@@ -78,8 +78,27 @@ def handle_first_aid_kit():
     print(f"\nPress enter to return to the main menu...")
 
 def main():
-      print("\n Welcome to the First Aid Assistant")   
+    print("\n Welcome to the First Aid Assistant") 
+    print("Your quick guide in any emergency.\n")
+ 
+    while True:
+        show_menu()
+        choice = input("\n  Enter your choice (1-4): ").strip()  
+
+        if choice == "1":
+             handle_abcdes()
+        elif choice == "2":
+             handle_search()
+        elif choice == "3":
+             handle_first_aid_kit()
+        elif choice == '4':
+            print("\Stay safe. Goodbye!\n")
+            break
+        else:
+            print("\n  Invalid choice. Please enter a number between 1 and 4.\n")
+             
+
 
 if __name__ == "__main__":
-    
+
     main()
