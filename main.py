@@ -11,6 +11,26 @@ def main():
     print("  4. Exit")
     print("-" * 34)
 
+
+    def abcdes_menu():
+        try: 
+            results =  search_db.get_abcdes()
+        except Exception as e:
+            print(f"Error in fetching data: {e}\n")
+            return
+
+    print("-" * 34)
+    print(f"  THE ABCDEs OF FIRST AID")
+    print("-" * 34)
+
+    for row in results:
+        print(f"\n  [{row['letter']}] {row['title'].upper()}")
+        print(f"      {row['description']}")
+
+    print("\n" + "-" * 34)
+    print(f"Press enter to return to the main menu...")
+
+    
     while True:
         keyword = input("Search: ").strip()
 
