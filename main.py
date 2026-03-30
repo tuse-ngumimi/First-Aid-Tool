@@ -2,7 +2,7 @@ import search_db
 import display
 
 
-def main():
+def show_menu():
     print("FIRST AID ASSISTANT")
     print("-" * 34)
     print("  1. ABCDEs of First Aid")
@@ -12,10 +12,10 @@ def main():
     print("-" * 34)
 
 
-    def handle_abcdes_menu():
-        try: 
+def handle_abcdes():
+    try: 
             results =  search_db.get_abcdes()
-        except Exception as e:
+    except Exception as e:
             print(f"Error in fetching data: {e}\n")
             return
 
@@ -30,43 +30,56 @@ def main():
     print("\n" + "-" * 34)
     print(f"Press enter to return to the main menu...")
 
-    def handle_search():
-        while True:
-            print("\n  Type a condition or symptom to search.")
-            print("  Type 'back' to return to the main menu.\n")
- 
-            keyword = input("  Search: ").strip()
- 
-            if keyword.lower() == 'back':
-                break
- 
-            if not keyword:
-                    print("  Please enter a search term.\n")
+def handle_search():
+    while True:
+        print("\n  Type a condition or symptom to search.")
+        print("  Type 'back' to return to the main menu.\n")
+
+        keyword = input("  Search: ").strip()
+
+        if keyword.lower() == 'back':
+            break
+
+        if not keyword:
+                print("  Please enter a search term.\n")
+        continue
+
+        try:
+            results = search_db.search_procedure(keyword)
+        except Exception as e:
+            print(f" Database error: {e}\n")
             continue
- 
-            try:
-                results = search_db.search_procedure(keyword)
-            except Exception as e:
-                print(f" Database error: {e}\n")
-                continue
- 
-            if not results:
-                print(f"  No results found for '{keyword}'. Try a different term.\n")
-                continue
- 
-            if len(results) > 1:
-                print(f"\n  Found {len(results)} results:")
-                for i, r in enumerate(results, 1):
-                    print(f"    {i}. {r['title']} ({r['category']})")
- 
-                choice = input("\n  Enter number to view: ").strip()
-                if choice.isdigit() and 1 <= int(choice) <= len(results):
-                    display.display_procedure(results[int(choice) - 1])
-                else:
-                 print("  Invalid choice.\n")
-        else:
-            display.display_procedure(results[0])
+
+        if not results:
+            print(f"  No results found for '{keyword}'. Try a different term.\n")
+            continue
+
+        if len(results) > 1:
+            print(f"\n  Found {len(results)} results:")
+            for i, r in enumerate(results, 1):
+                print(f"    {i}. {r['title']} ({r['category']})")
+
+            choice = input("\n  Enter number to view: ").strip()
+            if choice.isdigit() and 1 <= int(choice) <= len(results):
+                display.display_procedure(results[int(choice) - 1])
+            else:
+                print("  Invalid choice.\n")
+    else:
+        display.display_procedure(results[0])
         
-   
+def handle_first_aid_kit():
+    try:
+        results =  search_db.get_first_aid_kit()
+    except Exception as e:
+         print(f" Error fetching data: {e}\n")
+         return
+    
+    print("\n" + "-" * 34)
+    print(f"\nPress enter to return to the main menu...")
+
+def main():
+      print("\n Welcome to the First Aid Assistant")   
+
 if __name__ == "__main__":
+    
     main()
