@@ -35,3 +35,28 @@ def search_procedure(keyword):
     finally:
         cursor.close()
         conn.close()
+
+def get_abcdes():
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+
+    try:
+        cursor.execute("SELECT letter, title, description FROM abcdes ORDER BY id")
+        return cursor.fetchall()
+    
+    finally:
+        cursor.close()
+        conn.close()
+
+
+def get_first_aid_kit():
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+
+    try:
+      cursor.execute("SELECT item, purpose FROM first_aid_kit ORDER BY id")
+      return cursor.fetchall()
+
+    finally:
+      cursor.close()
+      conn.close()
