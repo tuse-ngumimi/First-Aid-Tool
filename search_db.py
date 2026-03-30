@@ -1,17 +1,18 @@
 from database_conn import get_db_connection
 
 SYNONYMS = {
-        'cant breathe': 'choking',
-        'not breathing': 'choking',
-        'chest pain': 'anaphylaxis',
-        'allergic reaction': 'anaphylaxis',
-        'broken arm': 'broken bones',
-        'nose bleeding': 'nosebleed',
+        'cant breathe': ['choking', 'asthma', 'anaphylaxis'],
+        'not breathing': ['choking', 'cardiac arrest'],
+        'chest pain': ['anaphylaxis', 'cardiac arrest', 'heart attack'],
+        'allergic reaction': ['anaphylaxis'],
+        'broken arm': ['broken bones'],
+        'nose bleeding': ['nosebleed'],
 }
 
 def normalise_keyword(keyword):
     keyword_lower = keyword.lower()
     return SYNONYMS.get(keyword_lower, keyword_lower)
+    return result if isinstance(result, list) else [result]
 
 def search_procedure(keyword):
     conn = get_db_connection()
