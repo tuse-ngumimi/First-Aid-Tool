@@ -11,6 +11,11 @@ SYNONYMS = {
     'feels faint': ['fainting', 'shock'],
     'passed out': ['fainting', 'unconscious'],
     'heart attack': ['cardiac arrest', 'heart attack'],
+    'overdose': ['opioid overdose'],
+    'heart attack': ['cardiac arrest', 'heart attack'],
+    'rash': ['poison ivy', 'rash'],
+    'muscle spasms': ['seizure'],
+    'swelling': ['broken bones', 'sprain']
 }
 
 def normalise_keyword(keyword):
