@@ -68,14 +68,23 @@ def handle_search():
             display.display_procedure(results[0])
         
 def handle_first_aid_kit():
-    try:
-        results =  search_db.get_first_aid_kit()
-    except Exception as e:
-         print(f" Error fetching data: {e}\n")
-         return
-    
-    print("\n" + "-" * 34)
-    print(f"\nPress enter to return to the main menu...")
+   try:
+        results = search_db.get_first_aid_kit()
+   except Exception as e:
+        print(f" Error fetching data: {e}\n")
+        return
+ 
+   print("\n" + "-" * 34)
+   print("  FIRST AID KIT CHECKLIST")
+   print("-" * 34)
+ 
+   for i, row in enumerate(results, 1):
+        print(f"\n  {i}. {row['item']}")
+        print(f"     → {row['purpose']}")
+ 
+   print("\n" + "-" * 34)
+   input("\nPress Enter to return to the main menu...")
+ 
 
 def main():
     print("\nWelcome to the First Aid Assistant!\n") 
