@@ -18,16 +18,22 @@ def search_procedure(keyword):
     conn = get_db_connection()
     cursor = conn.cursor(dictionary=True)
 
-    query = """
+    keywords = normalise_keyword(keyword)
+
+    placeholders =  " OR ".join(
+        ["(title LIKE %s OR symptom LIKE %s) for _ in keywords"]
+    )
+
+    query = f"""
         SELECT title, category, symptoms, steps, warnings, call_emergency
         FROM procedures
-        WHERE title LIKE %s
-        OR symptoms LIKE %s
+        WHERE {placeholders}
     """
 
-    normalised = normalise_keyword(keyword)
-    search_term = f"%{normalised}%"
-
+    params = []
+    for term in keywords:
+        search_term = f"%{term}%"
+        params.extend([search_term, search_term])
 
     try:
         cursor.execute(query, (search_term, search_term))
