@@ -1,17 +1,21 @@
 from database_conn import get_db_connection
 
 SYNONYMS = {
-        'cant breathe': ['choking', 'asthma', 'anaphylaxis'],
-        'not breathing': ['choking', 'cardiac arrest'],
-        'chest pain': ['anaphylaxis', 'cardiac arrest', 'heart attack'],
-        'allergic reaction': ['anaphylaxis'],
-        'broken arm': ['broken bones'],
-        'nose bleeding': ['nosebleed'],
+    'cant breathe': ['choking', 'asthma', 'anaphylaxis'],
+    'not breathing': ['choking', 'cardiac arrest'],
+    'chest pain': ['anaphylaxis', 'cardiac arrest', 'heart attack'],
+    'allergic reaction': ['anaphylaxis'],
+    'broken arm': ['broken bones'],
+    'broken leg': ['broken bones'],
+    'nose bleeding': ['nosebleed'],
+    'feels faint': ['fainting', 'shock'],
+    'passed out': ['fainting', 'unconscious'],
+    'heart attack': ['cardiac arrest', 'heart attack'],
 }
 
 def normalise_keyword(keyword):
     keyword_lower = keyword.lower()
-    return SYNONYMS.get(keyword_lower, keyword_lower)
+    result = SYNONYMS.get(keyword_lower, keyword_lower)
     return result if isinstance(result, list) else [result]
 
 def search_procedure(keyword):
@@ -21,7 +25,7 @@ def search_procedure(keyword):
     keywords = normalise_keyword(keyword)
 
     placeholders =  " OR ".join(
-        ["(title LIKE %s OR symptom LIKE %s) for _ in keywords"]
+        ["(title LIKE %s OR symptoms LIKE %s)" for _ in keywords]
     )
 
     query = f"""
@@ -36,7 +40,7 @@ def search_procedure(keyword):
         params.extend([search_term, search_term])
 
     try:
-        cursor.execute(query, (search_term, search_term))
+        cursor.execute(query, params)
         results = cursor.fetchall()
         return results
     finally:
