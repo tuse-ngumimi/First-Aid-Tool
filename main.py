@@ -32,40 +32,40 @@ def handle_abcdes():
 
 def handle_search():
     while True:
-        print("\n  Type a condition or symptom to search.")
-        print("  Type 'back' to return to the main menu.\n")
-
-        keyword = input("  Search: ").strip()
-
-        if keyword.lower() == 'back':
+       print("\n  Type a condition or symptom to search.")
+       print("  Type 'back' to return to the main menu.\n")
+ 
+       keyword = input("  Search: ").strip()
+ 
+       if keyword.lower() == 'back':
             break
-
-        if not keyword:
-                print("  Please enter a search term.\n")
-        continue
-
-        try:
-            results = search_db.search_procedure(keyword)
-        except Exception as e:
-            print(f" Database error: {e}\n")
+ 
+       if not keyword:
+            print("  Please enter a search term.\n")
             continue
-
-        if not results:
+ 
+       try:
+            results = search_db.search_procedure(keyword)
+       except Exception as e:
+            print(f"  Database error: {e}\n")
+            continue
+ 
+       if not results:
             print(f"  No results found for '{keyword}'. Try a different term.\n")
             continue
-
-        if len(results) > 1:
+ 
+       if len(results) > 1:
             print(f"\n  Found {len(results)} results:")
             for i, r in enumerate(results, 1):
                 print(f"    {i}. {r['title']} ({r['category']})")
-
+ 
             choice = input("\n  Enter number to view: ").strip()
             if choice.isdigit() and 1 <= int(choice) <= len(results):
                 display.display_procedure(results[int(choice) - 1])
             else:
                 print("  Invalid choice.\n")
-    else:
-        display.display_procedure(results[0])
+       else:
+            display.display_procedure(results[0])
         
 def handle_first_aid_kit():
     try:
@@ -78,7 +78,7 @@ def handle_first_aid_kit():
     print(f"\nPress enter to return to the main menu...")
 
 def main():
-    print("\n Welcome to the First Aid Assistant") 
+    print("\nWelcome to the First Aid Assistant!\n") 
     print("Your quick guide in any emergency.\n")
  
     while True:
@@ -92,7 +92,7 @@ def main():
         elif choice == "3":
              handle_first_aid_kit()
         elif choice == '4':
-            print("\Stay safe. Goodbye!\n")
+            print("Stay safe. Goodbye!\n")
             break
         else:
             print("\n  Invalid choice. Please enter a number between 1 and 4.\n")
@@ -100,5 +100,4 @@ def main():
 
 
 if __name__ == "__main__":
-
-    main()
+     main()
