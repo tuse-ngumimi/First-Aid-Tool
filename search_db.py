@@ -30,12 +30,14 @@ def search_procedure(keyword):
     keywords = normalise_keyword(keyword)
 
     placeholders =  " OR ".join(
-        ["(title LIKE %s OR symptoms LIKE %s)" for _ in keywords]
+        ["(p.title LIKE %s OR p.symptoms LIKE %s)" for _ in keywords]
     )
 
     query = f"""
-        SELECT title, category, symptoms, steps, warnings, call_emergency
-        FROM procedures
+        SELECT p.title, p.category, p.symptoms, p.steps,
+        p.warnings, p.call_emergency
+        FROM procedures p
+        LEFT JOIN type t ON p.type_id = t.type_id
         WHERE {placeholders}
     """
 
@@ -51,6 +53,41 @@ def search_procedure(keyword):
     finally:
         cursor.close()
         conn.close()
+
+def get_all_types():
+    """Returns all types from the type table"""
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+
+    try:
+        cursor.execute("SELECT type_id, type_name FROM type ORDER BY type_name")
+        return cursor.fetchall()
+    finally:
+        cursor.close()
+        conn.close() 
+
+
+def get_procedures_by_type(type_id):
+    """Returns all procedures belonging to a specific type."""
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+ 
+    query = """
+        SELECT p.title, p.category, p.symptoms, p.steps, p.warnings,
+               p.call_emergency, t.type_name
+        FROM procedures p
+        LEFT JOIN type t ON p.type_id = t.type_id
+        WHERE p.type_id = %s
+        ORDER BY p.title
+    """
+ 
+    try:
+        cursor.execute(query, (type_id,))
+        return cursor.fetchall()
+    finally:
+        cursor.close()
+        conn.close()
+        
 
 def get_abcdes():
     conn = get_db_connection()
