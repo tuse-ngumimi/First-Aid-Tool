@@ -12,7 +12,6 @@ SYNONYMS = {
     'passed out': ['fainting', 'unconscious'],
     'heart attack': ['cardiac arrest', 'heart attack'],
     'overdose': ['opioid overdose'],
-    'heart attack': ['cardiac arrest', 'heart attack'],
     'rash': ['poison ivy', 'rash'],
     'muscle spasms': ['seizure'],
     'swelling': ['broken bones', 'sprain']
@@ -35,7 +34,7 @@ def search_procedure(keyword):
 
     query = f"""
         SELECT p.title, p.category, p.symptoms, p.steps,
-        p.warnings, p.call_emergency
+        p.warnings, p.call_emergency, t.type_name
         FROM procedures p
         LEFT JOIN type t ON p.type_id = t.type_id
         WHERE {placeholders}

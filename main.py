@@ -7,8 +7,9 @@ def show_menu():
     print("-" * 34)
     print("  1. ABCDEs of First Aid")
     print("  2. Search for Emergency Procedure")
-    print("  3. First Aid Kit Checklist")
-    print("  4. Exit")
+    print("  3. Search by Type")
+    print("  4. First Aid Kit Checklist")
+    print("  5. Exit")
     print("-" * 34)
 
 
@@ -28,7 +29,7 @@ def handle_abcdes():
         print(f"      {row['description']}")
 
     print("\n" + "-" * 34)
-    print(f"Press enter to return to the main menu...")
+    input(f"Press enter to return to the main menu...")
 
 def handle_search():
     while True:
@@ -67,7 +68,6 @@ def handle_search():
        else:
             display.display_procedure(results[0])
 
-
 def handle_browse_by_type():
     try:
         types = search_db.get_all_types()
@@ -76,7 +76,7 @@ def handle_browse_by_type():
         return
  
     print("\n" + "-" * 34)
-    print("         BROWSE BY TYPE")
+    print("   BROWSE BY TYPE")
     print("-" * 34)
  
     for i, t in enumerate(types, 1):
@@ -141,21 +141,21 @@ def main():
  
     while True:
         show_menu()
-        choice = input("\n  Enter your choice (1-4): ").strip()  
+        choice = input("\n  Enter your choice (1-5): ").strip()  
 
         if choice == "1":
              handle_abcdes()
         elif choice == "2":
              handle_search()
         elif choice == "3":
-             handle_first_aid_kit()
-        elif choice == "4":
              handle_browse_by_type()
+        elif choice == "4":
+             handle_first_aid_kit()
         elif choice == "5":
             print("Stay safe. Goodbye!\n")
             break
         else:
-            print("\n  Invalid choice. Please enter a number between 1 and 4.\n")
+            print("\n  Invalid choice. Please enter a number between 1 and 5.\n")
              
 
 
